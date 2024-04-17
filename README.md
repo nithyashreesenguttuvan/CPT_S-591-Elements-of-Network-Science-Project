@@ -1,2 +1,4 @@
-# CPT_S-591-Elements-of-Network-Science-Project
-Spotify Analysis on Personal Profile
+# Code Files of the Project
+
+Analysis-SpotifyDownloadedData.R = Consist of code to analyse and visualize the downloaded Spotify data in json format
+
