@@ -203,7 +203,7 @@ top_ten_df %>%
         axis.text.y = element_blank(),
         plot.title.position = "plot") 
 
-# DANCEABILITY SEAPRATELY OF EACH ARTIST
+# DANCEABILITY SEPARATELY OF EACH ARTIST
 
 top_ten_df %>% 
   ggplot(aes(danceability, color = danceability, fill = danceability)) +
