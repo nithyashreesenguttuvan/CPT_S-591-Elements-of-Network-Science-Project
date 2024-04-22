@@ -9,10 +9,10 @@ library(plotly)
 library(httpuv)
 library(dplyr)
 library(DT)
-library(gt) # For better looking tables
-library(skimr) # For data summary
-library(ggdist) # Dot plots!
-library(showtext) # Custom fonts for plots
+library(gt)
+library(skimr) 
+library(ggdist) 
+library(showtext) 
 library(purrr)
 
 Sys.setenv(SPOTIFY_CLIENT_ID = 'YOUR_CLIENT_ID')
