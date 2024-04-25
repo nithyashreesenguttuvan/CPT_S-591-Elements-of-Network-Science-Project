@@ -56,7 +56,7 @@ ggplotly()
 
 playlistFavs %>%
   mutate(track.popularity = as.numeric(track.popularity)) %>% # Convert to numeric if not already
-  filter(track.popularity >= 90) %>% # Filter for tracks with popularity greater than or equal to 65
+  filter(track.popularity >= 90) %>% # Filter for tracks with popularity greater than or equal to 90 - can change
   ggplot(aes(x = track.name, y = track.popularity)) + 
   geom_col(aes(fill = track.album.name)) +
   labs(x = "Track name", y = "Popularity") + 
@@ -134,7 +134,6 @@ favArtist10 <- get_artist_audio_features(artist= "AP Dhillon") %>%
 
 library(tibble)
 
-# Assuming 'trackNumArtist' contains the necessary data
 top_ten_artists <- trackNumArtist %>%
   mutate(Artist = case_when(
     name == "flor" ~ "0szWPxzzE8DVEfXFRCLBUb", # Artist ID from the provided resource
@@ -155,11 +154,30 @@ top_ten_df <- map_dfr(top_ten_artists, ~{
 skim(top_ten_df) %>% 
   gt()
 
-# MAKE A SINGLE DATA SET
+# MAKE A SINGLE DATA SET - can use a differrent loop method too
+
+toptenArtists <- rbind(favArtist1, favArtist2, favArtist3, favArtist4, favArtist5, favArtist6, favArtist7, favArtist8, favArtist9, favArtist10)
+
+# PLOT EMOTIONAL QUADRANT TOP TEN ARTISTS
+
+emotionalQuadrant <- ggplot(data = toptenArtists, aes(x = valence, y = energy, color = artist_name)) +
+  geom_jitter() +
+  geom_vline(xintercept = 0.5) +
+  geom_hline(yintercept = 0.5) +
+  scale_x_continuous(expand = c(0, 0), limits = c(0, 1)) +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, 1)) +
+  annotate('text', 0.25 / 2, 0.95, label = "Angry / Turbulent") +
+  annotate('text', 1.75 / 2, 0.95, label = "Joyful / Happy") +
+  annotate('text', 1.75 / 2, 0.05, label = "Peace / Chill") +
+  annotate('text', 0.25 / 2, 0.05, label = "Depressing / Sad") +
+  labs(x= "Valence", y= "Energy") +
+  ggtitle("Emotional quadrant Top Ten artists", "Based on energy y valence")  
+emotionalQuadrant
+ggplotly()
+
+# PLOT EMOTIONAL QUADRANT TOP FOUR ARTISTS - for better visual understanding
 
 topFourArtists <- rbind(favArtist1, favArtist2, favArtist3, favArtist4)
-
-# PLOT EMOTIONAL QUADRANT TOP FOUR ARTISTS
 
 emotionalQuadrant <- ggplot(data = topFourArtists, aes(x = valence, y = energy, color = artist_name)) +
   geom_jitter() +
@@ -237,7 +255,7 @@ top_ten_df %>%
   theme_dark() +
   labs(x = "Danceability",
        y = "Instrumentalness",
-       title = "This Plot Isn't Helping Us Understand the Association\nBetween Danceability & Instrumentalness Much",
+       title = "Association Between Danceability & Instrumentalness",
        subtitle = "Instrumentalness is Skewed With Lots of Values Near 0"
   ) +
   theme(plot.background = element_rect(fill = "black"),
@@ -259,7 +277,7 @@ top_ten_df %>%
   theme_dark() +
   labs(x = "Danceability",
        y = "",
-       title = "We See High and Low Levels of Instrumentalness\nThroughout Danceability Distribution",
+       title = "Association Between Danceability & Instrumentalness - Dot plot",
        fill = "Instrumentalness"
   ) +
   theme(plot.background = element_rect(fill = "black"),
