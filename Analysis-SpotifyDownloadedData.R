@@ -42,19 +42,19 @@ hoursArtist <- mySpotify %>%
   summarize(hours = sum(minutes) / 60) %>% 
   ggplot(aes(x = date, y = hours, group = artistName)) + 
   labs(x = "Date", y = "Hours of music playback") + 
-  ggtitle("On what dates I've listened to more or less music by a specific artist?", "E.g: Alton Ellis and Jarabe de Palo") +
+  ggtitle("On what dates I've listened to more or less music by a specific artist?", "E.g: A.R.Rahman and Leon James") +
   geom_line() + 
-  gghighlight(artistName %in% c("Alton Ellis", "Jarabe De Palo")) 
+  gghighlight(artistName %in% c("A.R. Rahman", "Leon James")) 
 hoursArtist
 ggplotly()
 
-# MOST LISTENED ARTISTS (MORE THAN 3 HOURS)
+# MOST LISTENED ARTISTS (MORE THAN 1 HOUR) - can change the hour limit
 
 minutesMostListened <- mySpotify %>% 
   filter(date >= "2020-01-01") %>% 
   group_by(artistName) %>% 
   summarize(minutesListened = sum(minutes)) %>% 
-  filter(minutesListened >= 180) %>%
+  filter(minutesListened >= 60) %>%
   ggplot(aes(x = artistName, y = minutesListened)) + 
   geom_col(aes(fill = minutesListened)) +
   scale_fill_gradient(low = "yellow", high = "red") + 
@@ -128,4 +128,3 @@ dayType <- hoursDay %>%
   ggtitle("What day type I've listened to the most music on Spotify?", "Weekday and weekend activity from 0 to 24 hours") 
 dayType
 ggplotly()  
-
